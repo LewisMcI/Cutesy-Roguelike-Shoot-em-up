@@ -88,6 +88,7 @@ public class PlayerController : MonoBehaviour
         // Check if the player collided with a pickable EXP drop
         if (other.CompareTag("PickableEXP"))
         {
+            AudioManager.instance.PlaySFX("Pickup");
             // Get the EXP value from the drop
             int expValue = other.GetComponent<ExpDrop>().GetEXPValue();
 

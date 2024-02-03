@@ -33,6 +33,7 @@ public class RandomShootingWeapon : MonoBehaviour
 
     private void Shoot()
     {
+        AudioManager.instance.PlaySFX("PlayerShoot");
         // Calculate random shooting angle within the range
         float randomAngle = Random.Range(-playerStats.shootAngleRange, playerStats.shootAngleRange);
 

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -5,7 +6,10 @@ public class Bullet : MonoBehaviour
     private Vector2 direction; // Direction in which the bullet moves
     private float damage; // Damage inflicted by the bullet
     private float speed;
-
+    private void Awake()
+    {
+        Destroy(gameObject, 10.0f);
+    }
     public void SetDirection(Vector2 newDirection)
     {
         direction = newDirection.normalized;

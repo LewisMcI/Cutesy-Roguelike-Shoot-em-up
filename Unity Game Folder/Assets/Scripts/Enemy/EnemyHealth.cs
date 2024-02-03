@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -15,18 +16,23 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth = maxHealth; // Initialize current health to maximum health
     }
+    [SerializeField] SpriteRenderer sRenderer;
 
     // Example method to call when the enemy takes damage
     public void TakeDamage(float damage)
     {
+        StartCoroutine(DamageSpriteAnim());
         // Decrease enemy health
         currentHealth -= damage;
 
         // Check if the enemy health is depleted
         if (currentHealth <= 0f)
         {
+            AudioManager.instance.PlaySFX("EnemyKilled");
             Die();
         }
+        else
+            AudioManager.instance.PlaySFX("EnemyHit");
     }
 
     // Example method to call when the enemy dies
@@ -43,5 +49,12 @@ public class EnemyHealth : MonoBehaviour
 
         // Destroy the enemy GameObject
         Destroy(gameObject);
+    }
+
+    IEnumerator DamageSpriteAnim()
+    {
+        sRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.5f);
+        sRenderer.color = Color.white;
     }
 }

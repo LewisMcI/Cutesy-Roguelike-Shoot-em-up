@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,13 +15,18 @@ public class PlayerStats : MonoBehaviour
 
     public UnityEvent OnLevelUp; // Event triggered when the player levels up
 
+    private void Awake()
+    {
+        UpdateExpBar();
+    }
+
     public void AddXP(int amount)
     {
         currentXP += amount;
         if (currentXP >= maxXP)
-        {
             LevelUp();
-        }
+
+        UpdateExpBar();
     }
 
     private void LevelUp()
@@ -36,6 +42,22 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    [SerializeField] Transform expbar;
+    [SerializeField] TextMeshProUGUI levelText;
+
+    private void UpdateExpBar()
+    {
+        // Bar
+        if (currentXP < 0f)
+            expbar.localScale = new Vector3(0.0f, 1.0f, 1.0f);
+        else if (currentXP > maxXP)
+            expbar.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        else
+            expbar.localScale = new Vector3((float)currentXP / (float)maxXP, 1.0f, 1.0f);
+
+        // Level
+        levelText.text = "Level " + currentLevel + " - " + currentXP + " / " + maxXP + "xp";
+    }
     private int CalculateNextLevelXP()
     {
         // Example formula: Next level requires double the XP of the previous level
