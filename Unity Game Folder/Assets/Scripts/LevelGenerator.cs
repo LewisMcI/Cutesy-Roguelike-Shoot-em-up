@@ -7,11 +7,41 @@ public class LevelGenerator : MonoBehaviour
 {
     public int width = 10;
     public int height = 10;
-
+    bool showDebugUI = true;
     public Cell[] cells;
 
     private Cell[,] level;
+    private void OnGUI()
+    {
+        if (showDebugUI)
+        {
+            GUILayout.BeginArea(new Rect(10, 10, 200, 200));
+            GUILayout.Label("Debug UI");
+            GUILayout.Space(10);
 
+            // Width input field
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Width:");
+            width = int.Parse(GUILayout.TextField(width.ToString()));
+            GUILayout.EndHorizontal();
+
+            // Height input field
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Height:");
+            height = int.Parse(GUILayout.TextField(height.ToString()));
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(10);
+
+            // Generate Level button
+            if (GUILayout.Button("Generate Level"))
+            {
+                GenerateLevel();
+            }
+
+            GUILayout.EndArea();
+        }
+    }
     void Start()
     {
         GenerateLevel();
